@@ -30,6 +30,7 @@ public class AltitudePlane : MonoBehaviour
     public GameObject outBoundPrefab;
 
     private Camera _mainCamera;
+    private Transform _camTransform;
     private float _farDist = 20f;
     private float _altitude;
 
@@ -47,17 +48,29 @@ public class AltitudePlane : MonoBehaviour
     private void Start()
     {
         InitializeSettings();
-        //MakeAltitudePlane();
         MakeAroundAltitudePlane();
+    }
+
+    private void Update()
+    {
+        SetPos();
     }
 
     #endregion
     
     #region HelpMethod
 
+    private void SetPos()
+    {
+        var camPos = _camTransform.position;
+        transform.position = new Vector3(camPos.x, 0, camPos.z);
+    }
+    
     private void InitializeSettings()
     {
         _mainCamera = Camera.main;
+        _camTransform = _mainCamera.transform;
+
         _planePoints = new AltitudePlanePoints();
         _mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = _mesh;
@@ -70,6 +83,7 @@ public class AltitudePlane : MonoBehaviour
 
         _arPlaneManager = GameObject.FindObjectOfType<ARSessionOrigin>().GetComponent<ARPlaneManager>();
         _arPlaneManager.planesChanged += UpdatePlaneMeshWithARPlane;
+
     }
 
     /// <summary>

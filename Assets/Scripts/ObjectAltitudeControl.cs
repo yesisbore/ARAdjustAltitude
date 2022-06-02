@@ -35,7 +35,7 @@ public class ObjectAltitudeControl : MonoBehaviour
     
     private IEnumerator SetPos(Vector3 targetPos)
     {
-        Debug.LogFormat("[Choi Hong] ObjectAltitudeContol : SetPos");
+        //Debug.LogFormat("[Choi Hong] ObjectAltitudeContol : SetPos");
 
         _isMove = true;
         var lerpValue = 0f;
