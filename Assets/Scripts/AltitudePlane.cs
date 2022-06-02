@@ -25,8 +25,7 @@ public class AltitudePlane : MonoBehaviour
 
     [HideInInspector]
     public AroundAltitudePlanePoints _aroundPlanePoints;
-
-    public float correctionValue = 0f;
+    [HideInInspector]
     public GameObject outBoundPrefab;
 
     private Camera _mainCamera;
@@ -62,8 +61,9 @@ public class AltitudePlane : MonoBehaviour
 
     private void SetPos()
     {
-        var camPos = _camTransform.position;
-        transform.position = new Vector3(camPos.x, 0, camPos.z);
+        transform.forward = _camTransform.forward;
+        transform.eulerAngles = new Vector3(0,transform.eulerAngles.y, 0);
+        transform.position =  _camTransform.position;
     }
     
     private void InitializeSettings()
@@ -101,7 +101,7 @@ public class AltitudePlane : MonoBehaviour
         var aspect = _mainCamera.aspect;
 
         var nearDist = _mainCamera.nearClipPlane;
-        var nearHeight = Mathf.Tan(halfFov) * nearDist;
+        var nearHeight = Mathf.Tan(halfFov) * nearDist + 1.6f;
         var nearWidth = nearHeight * aspect;
 
         var farHeight = 1; //Mathf.Tan(halfFov) * farDist;
@@ -255,7 +255,7 @@ public class AltitudePlane : MonoBehaviour
         var adjustedValue = GetHeightFromARPlane(args);
         if (adjustedValue >= 0f || double.IsNaN(adjustedValue)) return;
 
-        UpdatePoints(_aroundPlanePoints.nearPoints, adjustedValue - 0.2f);
+        UpdatePoints(_aroundPlanePoints.nearPoints, adjustedValue -1.6f);
     }
 
     private float GetHeightFromARPlane(ARPlanesChangedEventArgs args)
