@@ -36,13 +36,13 @@ public class AltitudePlaneManager : MonoBehaviour
         
         var mainCam = Camera.main;
         
-        var altitudePlaneOrigin = new GameObject("AltitudePlaneOrigin");
-        altitudePlaneOrigin.AddComponent<AltitudePlaneOrigin>();
-        altitudePlaneOrigin.transform.SetParent(transform);
+        // var altitudePlaneOrigin = new GameObject("AltitudePlaneOrigin");
+        // altitudePlaneOrigin.AddComponent<AltitudePlaneOrigin>();
+        // altitudePlaneOrigin.transform.SetParent(transform);
 
         var go = new GameObject("AltitudePlane");
         go.layer = layer;
-        go.transform.SetParent(altitudePlaneOrigin.transform);
+        go.transform.SetParent(transform);
         go.transform.localPosition = new Vector3(0, -mainCam.transform.position.y, -mainCam.nearClipPlane);
         go.AddComponent<MeshFilter>();
         go.AddComponent<MeshRenderer>().material = altitudePalneMaterial;
@@ -50,14 +50,11 @@ public class AltitudePlaneManager : MonoBehaviour
         altitudePalne = go.AddComponent<AltitudePlane>();
         altitudePalne.outBoundPrefab = outBoundPrefab;
     }
-
     
-
     public void SetPlaneAltitude()
     {
         altitudePalne.SetPlaneAltitude();
     }
-
-   
+    
     #endregion
 }

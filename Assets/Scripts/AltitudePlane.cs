@@ -23,6 +23,9 @@ public class AltitudePlane : MonoBehaviour
 {
     #region Variables
 
+    [HideInInspector]
+    public AroundAltitudePlanePoints _aroundPlanePoints;
+
     public float correctionValue = 0f;
     public GameObject outBoundPrefab;
 
@@ -31,15 +34,11 @@ public class AltitudePlane : MonoBehaviour
     private float _altitude;
 
     private AltitudePlanePoints _planePoints;
-    private AroundAltitudePlanePoints _aroundPlanePoints;
     private ARPlaneManager _arPlaneManager;
 
     private Mesh _mesh;
     private Vector3[] _vertices;
     private int[] _triangles;
-
-    // Test용
-    private List<Vector3> tempPos = new List<Vector3>();
 
     #endregion
 
@@ -53,89 +52,7 @@ public class AltitudePlane : MonoBehaviour
     }
 
     #endregion
-
-    #region CreateSinglePlane - Prototype용
-
-    /// <summary>
-    /// (테스트용) 카메라의 앞에 하나의 메쉬를 만들때 사용 
-    /// </summary>
-    private void MakeAltitudePlane()
-    {
-        GetAltitudePlanePoints();
-        CreatePlane();
-    }
-
-    private void GetAltitudePlanePoints()
-    {
-        var cameraTransform = _mainCamera.transform;
-        var pos = cameraTransform.position;
-        var halfFov = (_mainCamera.fieldOfView * 0.5f) * Mathf.Deg2Rad;
-        var aspect = _mainCamera.aspect;
-
-        var forward = cameraTransform.forward;
-        var right = cameraTransform.right;
-        var up = cameraTransform.up;
-
-        var nearDist = _mainCamera.nearClipPlane;
-        var nearHeight = Mathf.Tan(halfFov) * nearDist;
-        var nearWidth = nearHeight * aspect;
-
-        var farDist = 20f;
-        var farHeight = Mathf.Tan(halfFov) * farDist;
-        var farWidth = farHeight * aspect;
-
-
-        // Get Near Points
-        _planePoints.nearLeft = _planePoints.nearRight = pos + forward * nearDist;
-
-        _planePoints.nearLeft -= right * nearWidth;
-        _planePoints.nearLeft -= up * nearHeight;
-
-        _planePoints.nearRight += right * nearWidth;
-        _planePoints.nearRight -= up * nearHeight;
-
-
-        // Get Far Points
-        _planePoints.nearLeft = _planePoints.nearRight = pos + forward * farDist;
-
-        _planePoints.nearLeft -= right * farWidth;
-        _planePoints.nearRight += right * farWidth;
-    }
-
-    private void CreatePlane()
-    {
-        CreateMesh();
-        UpdateMesh();
-    }
-
-    private void CreateMesh()
-    {
-        _vertices = new Vector3[]
-        {
-            _planePoints.farLeft,
-            _planePoints.farRight,
-            _planePoints.nearRight,
-            _planePoints.nearLeft
-        };
-        _triangles = new int[]
-        {
-            0, 3, 2,
-            2, 1, 0
-        };
-    }
-
-    private void UpdateMesh()
-    {
-        _mesh.Clear();
-
-        _mesh.vertices = _vertices;
-        _mesh.triangles = _triangles;
-
-        GetComponent<MeshCollider>().sharedMesh = _mesh;
-    }
-
-    #endregion
-
+    
     #region HelpMethod
 
     private void InitializeSettings()
@@ -356,8 +273,7 @@ public class AltitudePlane : MonoBehaviour
     }
 
     #endregion
-
-
+    
     #region Gizmos
 
     private float nearRadius = 0.03f;
@@ -381,11 +297,6 @@ public class AltitudePlane : MonoBehaviour
             Gizmos.DrawSphere(point, farRadius);
         }
 
-        Gizmos.color = Color.cyan;
-        // foreach (var pos in tempPos)
-        // {
-        //     Gizmos.DrawSphere(pos, 0.1f);
-        // }
     }
 
     #endregion

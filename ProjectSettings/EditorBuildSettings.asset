@@ -5,12 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/New Scene.unity
     guid: f1a15b7a360fa8a439a89bb0aacf8a2d
-  - enabled: 1
-    path: Assets/ARLocation/Samples/ARLocation Walking Dead.unity
-    guid: e59d2570271b2cf4ba157b8d7232b586
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects:
     AR Foundation RemoteARFoundationRemoteLoaderSettings: {fileID: 11400000, guid: 5140b4a50b512b14f88b4e940051f89c, type: 2}
     AR Foundation RemoteARFoundationRemoteSessionRecordsData: {fileID: 11400000, guid: 9bfe6287a25fc7d4fb8f798ac2a92591, type: 2}
